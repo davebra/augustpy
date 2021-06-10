@@ -3,7 +3,8 @@ import Cryptodome.Random
 from . import session, util
 
 class Lock:
-    COMMAND_SERVICE_UUID        = btle.UUID("0000fe24-0000-1000-8000-00805f9b34fb")
+    #COMMAND_SERVICE_UUID        = btle.UUID("0000fe24-0000-1000-8000-00805f9b34fb")
+    COMMAND_SERVICE_UUID        = btle.UUID("bd4ac610-0b45-11e3-8ffd-0800200c9a66")
     WRITE_CHARACTERISTIC        = btle.UUID("bd4ac611-0b45-11e3-8ffd-0800200c9a66")
     READ_CHARACTERISTIC         = btle.UUID("bd4ac612-0b45-11e3-8ffd-0800200c9a66")
     SECURE_WRITE_CHARACTERISTIC = btle.UUID("bd4ac613-0b45-11e3-8ffd-0800200c9a66")

@@ -13,10 +13,10 @@ class SessionDelegate(btle.DefaultDelegate):
         if self.data is not None:
             return
 
-        print("Receiving response: " + data.hex())
+        #print("Receiving response: " + data.hex())
 
         data = self.session.decrypt(data)
-        print("Decrypted response: " + data.hex())
+        #print("Decrypted response: " + data.hex())
         self.session._validate_response(data)
         self.data = data
 
@@ -60,7 +60,7 @@ class Session:
         command[0x03] = checksum
 
     def _validate_response(self, response: bytearray):
-        print("Response simple checksum: " + str(util._simple_checksum(response)))
+        #print("Response simple checksum: " + str(util._simple_checksum(response)))
         if util._simple_checksum(response) != 0:
             raise Exception("Simple checksum mismatch")
 
@@ -68,7 +68,7 @@ class Session:
             raise Exception("Incorrect flag in response")
 
     def _write(self, command: bytearray):
-        print("Writing command: " + command.hex())
+        #print("Writing command: " + command.hex())
 
         # NOTE: The last two bytes are not encrypted
         # General idea seems to be that if the last byte
@@ -79,7 +79,7 @@ class Session:
             cipherText = self.cipher_encrypt.encrypt(plainText)
             util._copy(command, cipherText)
 
-        print("Encrypted command: " + command.hex())
+        #print("Encrypted command: " + command.hex())
 
         delegate = SessionDelegate(self)
 
@@ -119,8 +119,8 @@ class SecureSession(Session):
         util._copy(command, checksum_bytes, destLocation=0x0c)
 
     def _validate_response(self, data: bytes):
-        print("Response security checksum: " + str(util._security_checksum(data)))
+        #print("Response security checksum: " + str(util._security_checksum(data)))
         response_checksum = int.from_bytes(data[0x0c:0x10], byteorder='little', signed=False)
-        print("Response message checksum: " + str(response_checksum))
+        #print("Response message checksum: " + str(response_checksum))
         if util._security_checksum(data) != response_checksum:
             raise Exception("Security checksum mismatch")
